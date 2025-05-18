@@ -23,10 +23,13 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
     });
   };
 
+  // Determine if this is an educational assessment question (1-8) or an entitlement question (9+)
+  const isEducationalQuestion = question.id <= 8;
+
   return (
     <Card className="w-full max-w-3xl mx-auto bg-white shadow-lg">
       <CardContent className="p-6">
-        <h3 className="text-xl font-semibold mb-6 text-center">
+        <h3 className={`text-xl font-semibold mb-6 text-center ${isEducationalQuestion ? "text-blue-700" : "text-purple-700"}`}>
           {question.text}
         </h3>
         
@@ -36,7 +39,13 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
           className="space-y-4"
         >
           {question.options.map((option) => (
-            <div key={option.id} className="flex items-center space-x-3 p-3 rounded-md border hover:bg-gray-50">
+            <div 
+              key={option.id} 
+              className={`flex items-center space-x-3 p-3 rounded-md border 
+                ${isEducationalQuestion 
+                  ? "hover:bg-blue-50 border-blue-200" 
+                  : "hover:bg-purple-50 border-purple-200"}`}
+            >
               <RadioGroupItem id={option.id} value={option.id} />
               <Label htmlFor={option.id} className="flex-1 cursor-pointer">
                 {option.text}

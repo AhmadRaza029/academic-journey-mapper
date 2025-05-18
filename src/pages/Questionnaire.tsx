@@ -59,6 +59,15 @@ const Questionnaire = () => {
     setAnswers([]);
     setShowResults(false);
   };
+
+  // Determine category label based on current question
+  const getCategoryLabel = () => {
+    if (currentQuestion.id <= 8) {
+      return "Educational Assessment";
+    } else {
+      return "Psychological Profile";
+    }
+  };
   
   if (showResults) {
     return (
@@ -106,10 +115,14 @@ const Questionnaire = () => {
         </div>
         
         <div className="text-center mb-8">
-          <h1 className="text-2xl md:text-3xl font-bold">Academic Personality Assessment</h1>
+          <h1 className="text-2xl md:text-3xl font-bold">Academic Profile Assessment</h1>
           <p className="text-edu-lightText mt-2">
-            This questionnaire helps identify your psychological entitlement profile and learning preferences
+            This questionnaire helps identify your learning preferences and psychological profile
           </p>
+          <div className={`inline-block px-4 py-1 rounded-full mt-3 text-sm font-medium
+            ${currentQuestion.id <= 8 ? "bg-blue-100 text-blue-700" : "bg-purple-100 text-purple-700"}`}>
+            {getCategoryLabel()}
+          </div>
         </div>
         
         <ProgressBar 
@@ -139,6 +152,7 @@ const Questionnaire = () => {
           <Button
             onClick={handleNextQuestion}
             disabled={!currentAnswer}
+            className={currentQuestion.id <= 8 ? "bg-blue-600 hover:bg-blue-700" : "bg-purple-600 hover:bg-purple-700"}
           >
             {currentQuestionIndex === totalQuestions - 1 ? (
               <>
